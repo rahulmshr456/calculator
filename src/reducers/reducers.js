@@ -2,7 +2,7 @@ const calculate = (state = { expression: '' }, action) => {
     switch (action.type) {
         case 'equal':
             return {
-                ...state, expression: eval(state.expression)
+                ...state, expression: total(state.expression)
             }
             break;
         case 'clear':
@@ -70,5 +70,26 @@ const filterDecimal = (expression, val) => {
 const deleteLastCharacter = (expression) => {
 
     return expression.substr(-1);
+}
+
+const total = (expression) => {
+
+    if (expression.substr(-1) === '/' || expression.substr(-1) === '-' || expression.substr(-1) === '+' || expression.substr(-1) === '*' || expression.substr(-1) === '.') {
+        try {
+            let res = eval(expression.slice(0, -1))
+            return res !== undefined ? res.toString() : '';
+        } catch (error) {
+            return ''
+        }
+    }
+    else {
+        try {
+            let res = eval(expression)
+            return res !== undefined ? res.toString() : '';
+        } catch (error) {
+            return ''
+        }
+    }
+
 }
 export default calculate
